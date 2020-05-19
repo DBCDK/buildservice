@@ -1,3 +1,8 @@
+/*
+ * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
+ * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
+ */
+
 package dk.dbc.updateservice;
 
 import dk.dbc.dataio.commons.utils.lang.StringUtil;
@@ -10,18 +15,20 @@ import dk.dbc.jsonb.JSONBException;
 import dk.dbc.updateservice.dto.BuildRequestDTO;
 import dk.dbc.updateservice.dto.BuildResponseDTO;
 import dk.dbc.util.Stopwatch;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
 public class UpdateServiceBuildConnector {
     JSONBContext jsonbContext = new JSONBContext();
+
     public enum TimingLogLevel {
         TRACE, DEBUG, INFO, WARN, ERROR
     }
@@ -64,7 +71,7 @@ public class UpdateServiceBuildConnector {
      * Returns new instance with custom retry policy
      *
      * @param failSafeHttpClient web resources client with custom retry policy
-     * UpdateServiceBuildConnector@param baseUrl            base URL for update service endpoint
+     *                           UpdateServiceBuildConnector@param baseUrl            base URL for update service endpoint
      */
     public UpdateServiceBuildConnector(FailSafeHttpClient failSafeHttpClient, String baseUrl) {
         this(failSafeHttpClient, baseUrl, UpdateServiceBuildConnector.TimingLogLevel.INFO);
