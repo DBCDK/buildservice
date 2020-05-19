@@ -1,17 +1,23 @@
+/*
+ * Copyright Dansk Bibliotekscenter a/s. Licensed under GPLv3
+ * See license text in LICENSE.txt or at https://opensource.dbc.dk/licenses/gpl-3.0/
+ */
+
 package dk.dbc.updateservice;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
+import dk.dbc.httpclient.HttpClient;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dk.dbc.httpclient.HttpClient;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.ws.rs.client.Client;
 
 @ApplicationScoped
 public class UpdateServiceBuildConnectorFactory {
@@ -32,7 +38,7 @@ public class UpdateServiceBuildConnectorFactory {
     }
 
     @Inject
-    @ConfigProperty(name = "BUILD_SERVICE_URL", defaultValue = "<buildservice url ikke sat>")
+    @ConfigProperty(name = "BUILD_SERVICE_URL")
     private String buildServiceUrl;
 
     @Inject
