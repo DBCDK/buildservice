@@ -23,7 +23,7 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class UpdateServiceBuildConnector {
@@ -36,10 +36,10 @@ public class UpdateServiceBuildConnector {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateServiceBuildConnector.class);
     private static final String PATH_BUILDSERVICE = "/api/v1/openbuildservice";
 
-    private static final RetryPolicy RETRY_POLICY = new RetryPolicy()
-            .retryOn(Collections.singletonList(ProcessingException.class))
-            .retryIf((Response response) -> response.getStatus() == 404)
-            .withDelay(10, TimeUnit.SECONDS)
+    private static final RetryPolicy<Response> RETRY_POLICY = new RetryPolicy<Response>()
+            .handle(ProcessingException.class)
+            .handleResultIf(response -> response.getStatus() == 404)
+            .withDelay(Duration.ofSeconds(10))
             .withMaxRetries(1);
 
     private final FailSafeHttpClient failSafeHttpClient;
